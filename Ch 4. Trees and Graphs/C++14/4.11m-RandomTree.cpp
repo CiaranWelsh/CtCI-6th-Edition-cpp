@@ -13,38 +13,32 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-template <typename T, bool>
+template<typename T, bool>
 class RandomNode;
 
-template <typename T, bool NotUsed = false>
-class RandomNode
-{
+template<typename T, bool NotUsed = false>
+class RandomNode {
 public:
     using NodePtr = std::shared_ptr<RandomNode<T>>;
 
-    RandomNode(const T &v): size(1)
-    {
+    RandomNode(const T &v) : size(1) {
         value = v;
     }
 
-    const NodePtr &getLeft() const
-    {
+    const NodePtr &getLeft() const {
         return childs[0];
     }
 
-    const NodePtr &getRight() const
-    {
+    const NodePtr &getRight() const {
         return childs[1];
     }
 
-    const T &getValue() const
-    {
+    const T &getValue() const {
         return value;
     }
 
 private:
-    void add(const T &v)
-    {
+    void add(const T &v) {
         if (!childs[v > value])
             childs[v > value] = std::make_shared<RandomNode<T>>(v);
         else
@@ -52,13 +46,11 @@ private:
         ++size;
     }
 
-    const T &getRandom() const
-    {
+    const T &getRandom() const {
         return get(std::rand() % size + 1);
     }
 
-    const T &get(size_t n) const
-    {
+    const T &get(size_t n) const {
         if (n == size)
             return value;
         else if (childs[0] && n <= childs[0]->size)
@@ -71,25 +63,23 @@ private:
     size_t size;
     std::array<NodePtr, 2> childs;
 
-    template <typename U>
-    friend class RandomTree;
+    template<typename U>
+    friend
+    class RandomTree;
 };
 
-template <typename T>
-class RandomTree : public Tree<T, false, RandomNode>
-{
+template<typename T>
+class RandomTree : public Tree<T, false, RandomNode> {
     using Base = Tree<T, false, RandomNode>;
 
 public:
-    const T &getRandom() const
-    {
+    const T &getRandom() const {
         if (!Base::root)
             throw typename Base::TreeIsEmptyException();
         return Base::root->getRandom();
     }
 
-    void add(const T &value)
-    {
+    void add(const T &value) {
         if (Base::root)
             Base::root->add(value);
         else
@@ -98,12 +88,11 @@ public:
 };
 
 
-int main()
-{
-    std::srand (unsigned(std::time(0)));
-    std::vector<int> v(7) ;
+int main() {
+    std::srand(unsigned(std::time(0)));
+    std::vector<int> v(7);
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., nodeCount - 1.
-    std::random_shuffle(std::begin(v), std::end(v), [](int i){return std::rand() % i;});
+    std::random_shuffle(std::begin(v), std::end(v), [](int i) { return std::rand() % i; });
 
     RandomTree<int> tree;
     tree.add(v.back());

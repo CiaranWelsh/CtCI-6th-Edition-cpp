@@ -5,37 +5,31 @@
 #include "stack.hpp"
 
 template<typename T>
-class StackMin
-{
+class StackMin {
 public:
     template<typename U>
-    void push(U &&value)
-    {
+    void push(U &&value) {
         if (minStack.isEmpty() || value <= minStack.peek())
             minStack.push(value);
         stack.push(std::forward<U>(value));
     }
 
-    T &peek()
-    {
+    T &peek() {
         return stack.peek();
     }
 
-    T &min()
-    {
+    T &min() {
         return minStack.peek();
     }
 
-    T pop()
-    {
+    T pop() {
         auto value = stack.pop();
         if (value == min())
             minStack.pop();
         return value;
     }
 
-    bool isEmpty()
-    {
+    bool isEmpty() {
         return stack.isEmpty();
     }
 
@@ -44,16 +38,13 @@ private:
     Stack<T> minStack;
 };
 
-int main()
-{
+int main() {
     StackMin<int> stack;
-    for (auto v : {5, 10, 4, 9, 3, 3, 8, 2, 2, 7, 6})
-    {
+    for (auto v : {5, 10, 4, 9, 3, 3, 8, 2, 2, 7, 6}) {
         stack.push(v);
         std::cout << "Pushed value: " << v << ", min value: " << stack.min() << std::endl;
     }
-    while (!stack.isEmpty())
-    {
+    while (!stack.isEmpty()) {
         auto v = stack.pop();
         std::cout << "Popped value: " << v;
         if (stack.isEmpty())

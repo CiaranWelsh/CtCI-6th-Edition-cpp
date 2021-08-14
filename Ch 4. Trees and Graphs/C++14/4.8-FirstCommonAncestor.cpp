@@ -11,17 +11,15 @@
 #include "treetestutils.hpp"
 #include "treenodeiterator.hpp"
 
-enum FindResult
-{
+enum FindResult {
     NotFound,   // node not found in subtree
     FoundLeft,  // node found in left subtree
     FoundRight, // node found in right subtree
     FoundEqual  // node is subtree root
 };
 
-template <typename T>
-FindResult findNodeFrom(const NodePtr<T> &startNode, const NodePtr<T> &node)
-{
+template<typename T>
+FindResult findNodeFrom(const NodePtr<T> &startNode, const NodePtr<T> &node) {
     if (!startNode)
         return NotFound;
     if (startNode == node)
@@ -33,12 +31,11 @@ FindResult findNodeFrom(const NodePtr<T> &startNode, const NodePtr<T> &node)
     return NotFound;
 }
 
-template <typename T>
-NodePtr<T> findCommonAncestor(const Tree<T> &tree, const NodePtr<T> &one, const NodePtr<T> &two)
-{
+template<typename T>
+NodePtr<T> findCommonAncestor(const Tree<T> &tree, const NodePtr<T> &one, const NodePtr<T> &two) {
     if (one == two)
         return one;
-    
+
     auto startNode = tree.getRoot();
 
     auto firstResult = findNodeFrom<T>(startNode, one);
@@ -48,8 +45,7 @@ NodePtr<T> findCommonAncestor(const Tree<T> &tree, const NodePtr<T> &one, const 
     if (secondResult == NotFound)
         return nullptr;
 
-    while (firstResult == secondResult)
-    {
+    while (firstResult == secondResult) {
         startNode = (firstResult == FoundLeft) ? startNode->getLeft() : startNode->getRight();
         firstResult = findNodeFrom<T>(startNode, one);
         secondResult = findNodeFrom<T>(startNode, two);
@@ -57,17 +53,14 @@ NodePtr<T> findCommonAncestor(const Tree<T> &tree, const NodePtr<T> &one, const 
     return startNode;
 }
 
-int main()
-{
+int main() {
     auto tree = TestUtils::treeFromArray({10, 1, 12, 3, 14, 25, 16, 27, 18, 29, 10, 13, 2, 15, 4, 5, 17, 7, 19, 9});
     TestUtils::printTree(tree);
 
-    for (auto one : tree)
-    {
+    for (auto one : tree) {
         if (one == tree.getRoot())
             continue; // it is not interesting
-        for (auto two : tree)
-        {
+        for (auto two : tree) {
             if (two == tree.getRoot() || two == one)
                 continue; // it is not interesting
             auto ancestor = findCommonAncestor<int>(tree, one, two);

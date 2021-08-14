@@ -10,42 +10,34 @@
 #include <memory>
 #include "queue.hpp"
 
-class Animal
-{
+class Animal {
 protected:
-    Animal(std::string &&animalName) : name(std::move(animalName))
-    {
+    Animal(std::string &&animalName) : name(std::move(animalName)) {
         orderNo = std::numeric_limits<decltype(orderNo)>::max();
     }
 
 public:
-    virtual ~Animal()
-    {
+    virtual ~Animal() {
     }
 
-    void setOrder(size_t order)
-    {
+    void setOrder(size_t order) {
         orderNo = order;
     }
 
-    size_t getOrder() const
-    {
+    size_t getOrder() const {
         return orderNo;
     }
 
-    const std::string &getName() const
-    {
+    const std::string &getName() const {
         return name;
     }
 
-    bool operator < (const Animal &other)
-    {
+    bool operator<(const Animal &other) {
         return orderNo < other.orderNo;
     }
 
-    template <typename T>
-    static std::shared_ptr<Animal> create(std::string &&name)
-    {
+    template<typename T>
+    static std::shared_ptr<Animal> create(std::string &&name) {
         return std::make_shared<T>(std::move(name));
     }
 
@@ -54,47 +46,35 @@ private:
     size_t orderNo;
 };
 
-class Dog: public Animal
-{
+class Dog : public Animal {
 public:
-    Dog(std::string &&name) : Animal(std::move(name))
-    {
+    Dog(std::string &&name) : Animal(std::move(name)) {
     }
 };
 
-class Cat: public Animal
-{
+class Cat : public Animal {
 public:
-    Cat(std::string &&name) : Animal(std::move(name))
-    {
+    Cat(std::string &&name) : Animal(std::move(name)) {
     }
 };
 
-class Shelter
-{
+class Shelter {
 public:
-    Shelter() : nextOrderNo(0)
-    {
+    Shelter() : nextOrderNo(0) {
     }
 
-    void enqueue(std::shared_ptr<Animal> &&animal)
-    {
-        if (auto dog = std::dynamic_pointer_cast<Dog>(animal))
-        {
+    void enqueue(std::shared_ptr<Animal> &&animal) {
+        if (auto dog = std::dynamic_pointer_cast<Dog>(animal)) {
             dog->setOrder(nextOrderNo++);
             dogs.add(std::move(dog));
-        }
-        else if (auto cat = std::dynamic_pointer_cast<Cat>(animal))
-        {
+        } else if (auto cat = std::dynamic_pointer_cast<Cat>(animal)) {
             cat->setOrder(nextOrderNo++);
             cats.add(std::move(cat));
-        }
-        else
+        } else
             throw BadAnimalException();
     }
 
-    std::shared_ptr<Animal> dequeueAny()
-    {
+    std::shared_ptr<Animal> dequeueAny() {
         if (dogs.isEmpty())
             return dequeueCat();
         else if (cats.isEmpty())
@@ -105,17 +85,16 @@ public:
             return dequeueCat();
     }
 
-    std::shared_ptr<Animal> dequeueCat()
-    {
+    std::shared_ptr<Animal> dequeueCat() {
         return std::static_pointer_cast<Animal>(cats.remove());
     }
 
-    std::shared_ptr<Animal> dequeueDog()
-    {
+    std::shared_ptr<Animal> dequeueDog() {
         return std::static_pointer_cast<Animal>(dogs.remove());
     }
 
-    class BadAnimalException {};
+    class BadAnimalException {
+    };
 
 private:
     Queue<std::shared_ptr<Dog>> dogs;
@@ -123,11 +102,10 @@ private:
     size_t nextOrderNo;
 };
 
-int main()
-{
+int main() {
     Shelter shelter;
-    for (auto name : {"Dog 1", "Cat 1", "Dog 2", "Dog 3 ", "Cat 2", "Cat 3", "Cat 4", "Dog 4", "Dog 5", "Dog 6", "Cat 5", "Cat 6", "Dog 7", "Dog 8", "Cat 7", "Dog 9"})
-    {
+    for (auto name : {"Dog 1", "Cat 1", "Dog 2", "Dog 3 ", "Cat 2", "Cat 3", "Cat 4", "Dog 4", "Dog 5", "Dog 6",
+                      "Cat 5", "Cat 6", "Dog 7", "Dog 8", "Cat 7", "Dog 9"}) {
         if (name[0] == 'D')
             shelter.enqueue(Animal::create<Dog>(std::move(name)));
         else if (name[0] == 'C')

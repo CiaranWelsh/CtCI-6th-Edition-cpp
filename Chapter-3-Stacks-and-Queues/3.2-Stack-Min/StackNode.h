@@ -3,16 +3,16 @@
 
 class Stack;
 
-class StackNode
-{
+class StackNode {
 public:
-  friend class Stack;
-  StackNode(int data, StackNode *next);
+    friend class Stack;
+
+    StackNode(int data, StackNode *next);
 
 private:
-  int data;
-  StackNode *next;
-  StackNode *minimum;
+    int data;
+    StackNode *next;
+    StackNode *minimum;
 };
 
 #endif // STACKNODE_H

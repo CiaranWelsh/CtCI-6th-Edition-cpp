@@ -9,19 +9,17 @@
 #include "treenodeiterator.hpp"
 #include "treetestutils.hpp"
 
-template <typename T>
+template<typename T>
 bool compareTrees(const NodePtr<T> &left, const NodePtr<T> &right);
 
-template <typename T>
-bool checkSubtree(const Tree<T> &tree, const Tree<T> &subtree)
-{
+template<typename T>
+bool checkSubtree(const Tree<T> &tree, const Tree<T> &subtree) {
     auto subtreeRoot = subtree.getRoot();
     if (!subtreeRoot)
         return true; // empty subtree
     auto subtreeRootValue = subtreeRoot->getValue();
-    
-    for (const auto &node : tree)
-    {
+
+    for (const auto &node : tree) {
         if (node->getValue() == subtreeRootValue)
             if (compareTrees<int>(node, subtreeRoot))
                 return true;
@@ -29,20 +27,19 @@ bool checkSubtree(const Tree<T> &tree, const Tree<T> &subtree)
     return false;
 }
 
-template <typename T>
-bool compareTrees(const NodePtr<T> &left, const NodePtr<T> &right)
-{
+template<typename T>
+bool compareTrees(const NodePtr<T> &left, const NodePtr<T> &right) {
     if (!left && !right)
         return true;
     else if (!left || !right) // one tree is not finished, another already finished
         return false;
     else if (left->getValue() == right->getValue())
-        return compareTrees<T>(left->getLeft(), right->getLeft()) && compareTrees<T>(left->getRight(), right->getRight());
+        return compareTrees<T>(left->getLeft(), right->getLeft()) &&
+               compareTrees<T>(left->getRight(), right->getRight());
     return false;
 }
 
-int main()
-{
+int main() {
     auto left = TestUtils::getSampleTree<int>(15);
     auto right = TestUtils::getSampleTree<int>(7);
     TestUtils::printTree(right);

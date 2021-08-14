@@ -14,13 +14,11 @@
 #include "graph.hpp"
 #include "graphtestutils.hpp"
 
-std::list<Node<int>> buildOrder(const Graph<int> &graph)
-{
+std::list<Node<int>> buildOrder(const Graph<int> &graph) {
     std::list<Node<int>> order;
     auto &projects = graph.getNodes();
 
-    for (auto &n : projects)
-    {
+    for (auto &n : projects) {
         for (auto &c : n->getAdjacent())
             c.lock()->state++;  // skip check c.lock()
     }
@@ -28,10 +26,8 @@ std::list<Node<int>> buildOrder(const Graph<int> &graph)
         if (n->state == 0)
             order.push_back(n);
 
-    for (auto &p : order)
-    {
-        for (auto &c : p->getAdjacent())
-        {
+    for (auto &p : order) {
+        for (auto &c : p->getAdjacent()) {
             auto n = c.lock();
             if (n && (--n->state) == 0)
                 order.push_back(n);
@@ -44,24 +40,32 @@ std::list<Node<int>> buildOrder(const Graph<int> &graph)
 }
 
 
-void test(const Graph<int> &graph)
-{
+void test(const Graph<int> &graph) {
     auto order = buildOrder(graph);
 
     const char *sep = "";
-    for (auto &n : order)
-    {
+    for (auto &n : order) {
         std::cout << sep << n->Name();
         sep = ", ";
     }
     std::cout << std::endl;
 }
 
-int main()
-{
+int main() {
     test(TestUtils::createGraph<int>({"a", "b", "c", "d", "e", "f"},
-        {{"a", "d"}, {"f", "b"}, {"b", "d"}, {"f", "a"}, {"d", "c"}}));
+                                     {{"a", "d"},
+                                      {"f", "b"},
+                                      {"b", "d"},
+                                      {"f", "a"},
+                                      {"d", "c"}}));
 
     test(TestUtils::createGraph<int>({"a", "b", "c", "d", "e", "f", "g"},
-        {{"a", "e"}, {"b", "a"}, {"b", "e"}, {"c", "a"}, {"d", "g"}, {"f", "a"}, {"f", "b"}, {"f", "c"}}));
+                                     {{"a", "e"},
+                                      {"b", "a"},
+                                      {"b", "e"},
+                                      {"c", "a"},
+                                      {"d", "g"},
+                                      {"f", "a"},
+                                      {"f", "b"},
+                                      {"f", "c"}}));
 }

@@ -5,47 +5,39 @@
 #include <iostream>
 #include "stack.hpp"
 
-template <typename T>
-class SortedStack
-{
+template<typename T>
+class SortedStack {
 public:
-    SortedStack() : sorted(false)
-    {
+    SortedStack() : sorted(false) {
     }
 
-    template <typename U>
-    void push(U &&value)
-    {
+    template<typename U>
+    void push(U &&value) {
         stack.push(std::forward<U>(value));
         sorted = false;
     }
 
-    T &peek()
-    {
+    T &peek() {
         sort();
         return stack.peek();
     }
 
-    T pop()
-    {
+    T pop() {
         sort();
         return stack.pop();
     }
 
-    bool isEmpty() const
-    {
+    bool isEmpty() const {
         return stack.isEmpty();
     }
 
 private:
-    void sort()
-    {
+    void sort() {
         if (sorted)
             return;
 
         Stack<T> helper;
-        while (!stack.isEmpty())
-        {
+        while (!stack.isEmpty()) {
             T value = stack.pop();
 
             // Move greater than 'value' elements from 'helper' to 'stack'
@@ -66,19 +58,16 @@ private:
     bool sorted;
 };
 
-int main()
-{
+int main() {
     SortedStack<int> stack;
-    for (auto v : {5, 10, 4, 9, 3, 3, 8, 1, 2, 2, 7, 6})
-    {
+    for (auto v : {5, 10, 4, 9, 3, 3, 8, 1, 2, 2, 7, 6}) {
         stack.push(v);
         std::cout << "Pushed value: " << v << std::endl;
     }
 
     std::cout << std::endl;
 
-    while (!stack.isEmpty())
-    {
+    while (!stack.isEmpty()) {
         auto v = stack.pop();
         std::cout << "Popped value: " << v << std::endl;
     }

@@ -4,9 +4,8 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-template <typename T>
-bool checkNode(const NodePtr<T> &node, const T *minValue, const T *maxValue)
-{
+template<typename T>
+bool checkNode(const NodePtr<T> &node, const T *minValue, const T *maxValue) {
     if (!node)
         return true;
     if (minValue && node->getValue() <= *minValue)
@@ -14,17 +13,16 @@ bool checkNode(const NodePtr<T> &node, const T *minValue, const T *maxValue)
     if (maxValue && node->getValue() > *maxValue)
         return false;
 
-    return checkNode<T>(node->getLeft(), minValue, &node->getValue()) && checkNode<T>(node->getRight(), &node->getValue(), maxValue);
+    return checkNode<T>(node->getLeft(), minValue, &node->getValue()) &&
+           checkNode<T>(node->getRight(), &node->getValue(), maxValue);
 }
 
-template <typename T>
-bool isValidBST(const Tree<T> &tree)
-{
+template<typename T>
+bool isValidBST(const Tree<T> &tree) {
     return checkNode<T>(tree.getRoot(), nullptr, nullptr);
 }
 
-int main()
-{
+int main() {
     // valid BST
     auto tree = TestUtils::getSampleTree<int>(20);
     TestUtils::printTree(tree);

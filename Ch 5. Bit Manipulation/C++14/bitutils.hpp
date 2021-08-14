@@ -2,15 +2,13 @@
 #include <bitset>
 #include <limits>
 
-template <typename T, int N = std::numeric_limits<T>::digits>
-std::bitset<N> bits(const T &value)
-{
+template<typename T, int N = std::numeric_limits<T>::digits>
+std::bitset<N> bits(const T &value) {
     return std::bitset<N>(value);
 }
 
-template <typename T>
-size_t countBits(T v)
-{
+template<typename T>
+size_t countBits(T v) {
     //return std::bitset<std::numeric_limits<T>::digits>(v).count();
 
     static_assert(std::is_unsigned<T>::value, "T must be unsigned integral type");

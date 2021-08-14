@@ -14,38 +14,34 @@
 #include <chrono>
 #include <iostream>
 
-template <typename T>
-class Tree
-{
+template<typename T>
+class Tree {
 public:
-    Tree()
-    {
+    Tree() {
         // construct a trivial random generator engine from a time-based seed:
         auto seed = std::chrono::system_clock::now().time_since_epoch().count();
         randomEngine = std::default_random_engine(seed);
     }
 
     class RandomNode;
+
     using NodePtr = std::shared_ptr<RandomNode>;
 
-    class RandomNode
-    {
+    class RandomNode {
     public:
-        template <typename U>
-        explicit RandomNode(U &&value) : v(std::forward<U>(value))
-        {
+        template<typename U>
+        explicit RandomNode(U &&value) : v(std::forward<U>(value)) {
         }
 
-        const NodePtr &left() const
-        {
+        const NodePtr &left() const {
             return childs[0];
         }
-        const NodePtr &right() const
-        {
+
+        const NodePtr &right() const {
             return childs[1];
         }
-        const T &value() const
-        {
+
+        const T &value() const {
             return v;
         }
 
@@ -56,9 +52,8 @@ public:
         friend class Tree;
     };
 
-    template <typename U>
-    const NodePtr insert(const NodePtr &parent, U &&value, bool insertRight)
-    {
+    template<typename U>
+    const NodePtr insert(const NodePtr &parent, U &&value, bool insertRight) {
         NodePtr newNode;
         if (!parent)
             rootNode = newNode = std::make_shared<RandomNode>(std::forward<U>(value));
@@ -69,22 +64,19 @@ public:
         return newNode;
     }
 
-    const NodePtr getRundomNode() const
-    {
+    const NodePtr getRundomNode() const {
         if (nodes.size() == 0)
             return nullptr;
         else if (nodes.size() == 1)
             return rootNode;
-        else
-        {
+        else {
             if (randomDistribution.max() != nodes.size() - 1)
                 randomDistribution = std::uniform_int_distribution<size_t>(0, nodes.size() - 1);
             return nodes.at(randomDistribution(randomEngine));
         }
     }
 
-    const NodePtr &root() const
-    {
+    const NodePtr &root() const {
         return this->rootNode;
     }
 
@@ -95,8 +87,7 @@ private:
     mutable std::uniform_int_distribution<size_t> randomDistribution;
 };
 
-int main()
-{
+int main() {
     Tree<int> tree;
     auto node = tree.insert(nullptr, 3, false); //      3
     auto left = tree.insert(node, 1, false);    //    /   \       .
@@ -107,8 +98,7 @@ int main()
     tree.insert(right, 6, true);
 
     std::string coma;
-    for (int i = 0; i < 100; ++i)
-    {
+    for (int i = 0; i < 100; ++i) {
         std::cout << coma << tree.getRundomNode()->value();
         if (coma.empty())
             coma = ", ";

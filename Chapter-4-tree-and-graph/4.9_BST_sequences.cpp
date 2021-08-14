@@ -1,24 +1,25 @@
 #include<iostream>
 #include <algorithm>
+
 using namespace std;
 
-struct node{
+struct node {
     int data;
     node *right, *left;
 };
 
-void createMinimalBst(node* &root, int arr[], int start, int end){
-    if(start>end)
+void createMinimalBst(node *&root, int arr[], int start, int end) {
+    if (start > end)
         return;
-    if(root==NULL){
+    if (root == NULL) {
         node *ptr = new node;
-        int ind = start + (end-start)/2;
+        int ind = start + (end - start) / 2;
         ptr->data = arr[ind];
         ptr->left = NULL;
         ptr->right = NULL;
         root = ptr;
-        createMinimalBst(root->left, arr, start, ind-1);
-        createMinimalBst(root->right, arr, ind+1, end);
+        createMinimalBst(root->left, arr, start, ind - 1);
+        createMinimalBst(root->right, arr, ind + 1, end);
     }
 }
 
@@ -34,13 +35,12 @@ We do it recursivley, at each level:
     and n be the number of nodes in the right sub-tree.
     Then the number of all possible sequences after merging step is (m+n)!/(m!n!) (binomial coefficient).
 */
-vector<vector<int> > findAllSeq(node *ptr)
-{
+vector <vector<int>> findAllSeq(node *ptr) {
     //Base Case 1:
     //If ptr is NULL, then return a vector with an empty sequence.
     if (ptr == NULL) {
         vector<int> seq;
-        vector<vector<int> > v;
+        vector <vector<int>> v;
         v.push_back(seq);
         return v;
     }
@@ -48,10 +48,10 @@ vector<vector<int> > findAllSeq(node *ptr)
     //Base Case 2:
     //If ptr is a leaf node, then return a vector with a single sequence.
     //Its trivial that this sequence will contain only a single element, i.e. value of that node.
-    if (ptr -> left == NULL && ptr -> right == NULL) {
+    if (ptr->left == NULL && ptr->right == NULL) {
         vector<int> seq;
-        seq.push_back(ptr -> data);
-        vector<vector<int> > v;
+        seq.push_back(ptr->data);
+        vector <vector<int>> v;
         v.push_back(seq);
         return v;
     }
@@ -59,9 +59,9 @@ vector<vector<int> > findAllSeq(node *ptr)
     //Divide Part (this part is very simple.)
     //We assume that we have a function that can solve this problem,
     //and thus we solve it for left sub tree and right sub tree.
-    vector<vector<int> > results, left, right;
-    left  = findAllSeq(ptr -> left);
-    right = findAllSeq(ptr -> right);
+    vector <vector<int>> results, left, right;
+    left = findAllSeq(ptr->left);
+    right = findAllSeq(ptr->right);
     int size = left[0].size() + right[0].size() + 1;
 
     //Merging the two solution.(The crux is in this step.)
@@ -90,10 +90,10 @@ vector<vector<int> > findAllSeq(node *ptr)
         for (int j = 0; j < right.size(); j++) {
             do {
                 vector<int> tmp(size);
-                tmp[0] = ptr -> data;
+                tmp[0] = ptr->data;
                 int l = 0, r = 0;
                 for (int k = 0; k < flags.size(); k++) {
-                    tmp[k+1] = (flags[k]) ? right[j][r++] : left[i][l++];
+                    tmp[k + 1] = (flags[k]) ? right[j][r++] : left[i][l++];
                 }
                 results.push_back(tmp);
             } while (next_permutation(flags.begin(), flags.end()));
@@ -103,24 +103,25 @@ vector<vector<int> > findAllSeq(node *ptr)
     return results;
 }
 
-void printAllSeq(vector<vector<int> > &AllSeq){
+void printAllSeq(vector <vector<int>> &AllSeq) {
     int i = 1;
-    for (vector<vector<int> >::iterator iter = AllSeq.begin() ; iter != AllSeq.end(); ++iter){
+    for (vector < vector < int > > ::iterator iter = AllSeq.begin(); iter != AllSeq.end();
+    ++iter){
         vector<int> seq = *iter;
-        cout<<"The " <<i <<"th sequence is: ";
+        cout << "The " << i << "th sequence is: ";
         i++;
-        for (vector<int>::iterator it = seq.begin() ; it != seq.end(); ++it){
+        for (vector<int>::iterator it = seq.begin(); it != seq.end(); ++it) {
             cout << ' ' << *it;
-            }
+        }
         cout << '\n';
     }
 }
 
-int main(){
+int main() {
     int arr[] = {1, 2, 3, 4, 5, 6, 7};
-    node* root;
+    node *root;
     root = nullptr;
     createMinimalBst(root, arr, 0, 6);
-    vector<vector<int> > all_sequences = findAllSeq(root);
+    vector <vector<int>> all_sequences = findAllSeq(root);
     printAllSeq(all_sequences);
 }

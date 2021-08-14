@@ -3,50 +3,43 @@
 #include <iostream>
 #include "stack.hpp"
 
-template <typename T>
-class MyQueue
-{
+template<typename T>
+class MyQueue {
 public:
-    template <typename U>
-    void add(U &&value)
-    {
+    template<typename U>
+    void add(U &&value) {
         newValues.push(std::forward<U>(value));
     }
 
-    T peek()
-    {
+    T peek() {
         if (reversed.isEmpty())
             move(newValues, reversed);
         return reversed.peek();
     }
 
-    T remove()
-    {
+    T remove() {
         if (reversed.isEmpty())
             move(newValues, reversed);
         return reversed.pop();
     }
 
-    bool isEmpty()
-    {
+    bool isEmpty() {
         return newValues.isEmpty() && reversed.isEmpty();
     }
 
 private:
-    static void move(Stack<T> &from, Stack<T> &to)
-    {
+    static void move(Stack<T> &from, Stack<T> &to) {
         while (!from.isEmpty())
             to.push(from.pop());
     }
+
     Stack<T> newValues;
     Stack<T> reversed;
 };
 
-int main()
-{
+int main() {
     MyQueue<int> queue;
-    for (int i = 0; i < 10; ++i)
-    {
+    for (int i = 0; i < 10; ++i) {
         queue.add(i);
         std::cout << "Queued value " << i << std::endl;
     }
@@ -54,8 +47,7 @@ int main()
     for (int i = 0; i < 5; ++i)
         std::cout << "Removed value " << queue.remove() << std::endl;
 
-    for (int i = 10; i < 15; ++i)
-    {
+    for (int i = 10; i < 15; ++i) {
         queue.add(i);
         std::cout << "Queued value " << i << std::endl;
     }

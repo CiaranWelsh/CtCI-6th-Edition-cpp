@@ -5,6 +5,7 @@
 
 #include<iostream>
 #include <stack>
+
 using namespace std;
 
 
@@ -18,49 +19,51 @@ using namespace std;
   3) Pop the element from stack2 and return it.
 */
 
-class Queue{
+class Queue {
 private:
     stack<int> stack1, stack2;
 public:
-    void EnQueue(int data){
+    void EnQueue(int data) {
         stack1.push(data);
     }
-    int DeQueue(){
-        if(stack1.empty() && stack2.empty()){
+
+    int DeQueue() {
+        if (stack1.empty() && stack2.empty()) {
             printf("Queue is empty!");
             getchar();
             exit(0);
         }
-        if(stack2.empty()){
-        while(!stack1.empty()){
-            stack2.push(stack1.top());
-            stack1.pop();
-        }
+        if (stack2.empty()) {
+            while (!stack1.empty()) {
+                stack2.push(stack1.top());
+                stack1.pop();
+            }
         }
         int temp = stack2.top();
         stack2.pop();
         return temp;
     }
-    int size(){
+
+    int size() {
         return stack1.size() + stack2.size();
     }
 
 };
 
-int main(){
+int main() {
     Queue q;
-    for(int i=0; i<10; i++){
-        cout<<"EnQueue :"<<i<<'\n';
+    for (int i = 0; i < 10; i++) {
+        cout << "EnQueue :" << i << '\n';
         q.EnQueue(i);
     }
-    cout<<"DeQueue :"<<q.DeQueue()<<'\n';
-    cout<<"DeQueue :"<<q.DeQueue()<<'\n';
-    for(int i=10; i<20; i++){
-        cout<<"EnQueue :"<<i<<'\n';
+    cout << "DeQueue :" << q.DeQueue() << '\n';
+    cout << "DeQueue :" << q.DeQueue() << '\n';
+    for (int i = 10; i < 20; i++) {
+        cout << "EnQueue :" << i << '\n';
         q.EnQueue(i);
     }
-    cout<<"DeQueue :"<<q.DeQueue()<<'\n';
-    cout<<"DeQueue :"<<q.DeQueue()<<'\n';
+    cout << "DeQueue :" << q.DeQueue() << '\n';
+    cout << "DeQueue :" << q.DeQueue() << '\n';
 
 }
 

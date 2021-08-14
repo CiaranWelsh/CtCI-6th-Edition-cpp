@@ -5,9 +5,8 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-template <typename T>
-NodePtr<T, true> getMin(NodePtr<T, true> node)
-{
+template<typename T>
+NodePtr<T, true> getMin(NodePtr<T, true> node) {
     if (!node)
         return nullptr;
     while (node->getLeft())
@@ -15,16 +14,14 @@ NodePtr<T, true> getMin(NodePtr<T, true> node)
     return node;
 }
 
-template <typename T>
-NodePtr<T, true> nextNode(NodePtr<T, true> node)
-{
+template<typename T>
+NodePtr<T, true> nextNode(NodePtr<T, true> node) {
     if (!node)
         return nullptr;
     if (node->getRight())
         return getMin<T>(node->getRight());
     auto next = node->getParent();
-    while (next && node == next->getRight())
-    {
+    while (next && node == next->getRight()) {
         // right subtree is traversed -> parent and all its childs were traversed
         node = next;
         next = next->getParent();
@@ -32,14 +29,12 @@ NodePtr<T, true> nextNode(NodePtr<T, true> node)
     return next;
 }
 
-int main()
-{
+int main() {
     // valid BST
     auto tree = TestUtils::getSampleTree<int, true>(20);
     TestUtils::printTree(tree);
     auto node = getMin<int>(tree.getRoot());
-    if (node)
-    {
+    if (node) {
         std::cout << node->getValue();
         for (node = nextNode<int>(node); node; node = nextNode<int>(node))
             std::cout << " --> " << node->getValue();

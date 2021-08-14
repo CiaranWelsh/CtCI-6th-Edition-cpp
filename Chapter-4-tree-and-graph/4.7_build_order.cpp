@@ -2,11 +2,11 @@
 #include<iostream>
 #include <list>
 #include <stack>
+
 using namespace std;
 
 // Class to represent a graph
-class Graph
-{
+class Graph {
     int V;    // Number of vertices
 
     // Pointer to an array containing adjacency listsList
@@ -14,10 +14,11 @@ class Graph
 
     // A function used by topologicalSort
     void DFS(int v, bool visited[], stack<int> &Stack);
+
 public:
     Graph(int V);   // Constructor
 
-     // function to add an edge to graph
+    // function to add an edge to graph
     void addEdge(int v, int w);
 
     // prints a Topological Sort of the complete graph
@@ -25,21 +26,18 @@ public:
 };
 
 // Implement the member functions
-Graph::Graph(int V)
-{
+Graph::Graph(int V) {
     this->V = V;
     adj = new list<int>[V];
 }
 
-void Graph::addEdge(int v, int w)
-{
-    adj[v].push_back(w); // Add w to v¡¯s list.
+void Graph::addEdge(int v, int w) {
+    adj[v].push_back(w); // Add w to vï¿½ï¿½s list.
 }
 
 // A recursive function used by topologicalSort
 void Graph::DFS(int v, bool visited[],
-                                stack<int> &Stack)
-{
+                stack<int> &Stack) {
     // Mark the current node as visited.
     visited[v] = true;
 
@@ -55,8 +53,7 @@ void Graph::DFS(int v, bool visited[],
 
 // The function to do Topological Sort. It uses recursive
 // DFS()
-void Graph::topologicalSort()
-{
+void Graph::topologicalSort() {
     stack<int> Stack;
 
     // Mark all the vertices as not visited
@@ -67,20 +64,18 @@ void Graph::topologicalSort()
     // Call the recursive helper function to store Topological
     // Sort starting from all vertices one by one
     for (int i = 0; i < V; i++)
-      if (visited[i] == false)
-        DFS(i, visited, Stack);
+        if (visited[i] == false)
+            DFS(i, visited, Stack);
 
     // Print contents of stack
-    while (Stack.empty() == false)
-    {
+    while (Stack.empty() == false) {
         cout << Stack.top() << " ";
         Stack.pop();
     }
 }
 
 // Driver program to test above functions
-int main()
-{
+int main() {
     // Create a graph given in the above diagram
     Graph g(8);                    // Graph contains 8 nodes
     g.addEdge(5, 2);               // Project 2 depends on 5

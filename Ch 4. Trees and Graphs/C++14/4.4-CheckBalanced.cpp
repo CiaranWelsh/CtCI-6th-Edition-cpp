@@ -6,9 +6,8 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-template <typename T>
-int getHeight(const NodePtr<int> &node)
-{
+template<typename T>
+int getHeight(const NodePtr<int> &node) {
     if (!node)
         return 0;
 
@@ -19,20 +18,18 @@ int getHeight(const NodePtr<int> &node)
     int rightH = getHeight<T>(node->getRight());
     if (rightH == -1)
         return -1;
-    
+
     if (std::abs(leftH - rightH) > 1)
         return -1;
     return std::max(leftH, rightH) + 1;
 }
 
-template <typename T>
-bool isTreeBalanced(const Tree<T> &tree)
-{
+template<typename T>
+bool isTreeBalanced(const Tree<T> &tree) {
     return getHeight<T>(tree.getRoot()) != -1;
 }
 
-int main()
-{
+int main() {
     auto tree = TestUtils::getSampleTree<int>(20); // balanced tree
     std::cout << "Tree is " << (isTreeBalanced<int>(tree) ? "" : "NOT ") << "balanced" << std::endl;
 

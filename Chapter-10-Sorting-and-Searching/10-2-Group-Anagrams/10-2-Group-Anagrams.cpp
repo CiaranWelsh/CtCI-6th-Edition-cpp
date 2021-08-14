@@ -12,7 +12,7 @@
 #include <string>
 #include <algorithm>
 
-bool anagram_check(std::string s1,std::string s2) // checks if two strings are anagrams of each other
+bool anagram_check(std::string s1, std::string s2) // checks if two strings are anagrams of each other
 {
     if (s1.size() != s2.size()) return false;
     std::sort(s1.begin(), s1.end());
@@ -20,9 +20,8 @@ bool anagram_check(std::string s1,std::string s2) // checks if two strings are a
     return s1 == s2;
 }
 
-void group_anagrams(std::string arr[], int size)
-{
-    int cur_index = 0; 
+void group_anagrams(std::string arr[], int size) {
+    int cur_index = 0;
     while (cur_index < size) {
         // in each loop we start with the element at cur_index and move all the anagrams to the right of it
         for (int i = cur_index + 1; i < size; i++) {
@@ -39,8 +38,7 @@ void group_anagrams(std::string arr[], int size)
 }
 
 
-int main()
-{
+int main() {
     // As an example, we can use:
     std::string s[6] = {"abcd", "asleep", "notananagram", "cdba", "please", "dcba"};
 

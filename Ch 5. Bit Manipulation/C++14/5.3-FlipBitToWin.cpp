@@ -12,20 +12,17 @@
 
 #include "bitutils.hpp"
 
-template <typename T>
-int flipToWin(T bits)
-{
+template<typename T>
+int flipToWin(T bits) {
     static_assert(std::is_unsigned<T>::value, "T must be unsigned integral type");
 
     int result = 1;
     int lenLeft = 0;
     int lenRight = 0;
-    while (bits != 0)
-    {
+    while (bits != 0) {
         if (bits & 1)
             ++lenLeft;
-        else
-        {
+        else {
             // The current bit is 0 means that we counted right sequence length.
             // If the next bit will be 0, then right sequence length will reset to 0.
             lenRight = lenLeft;
@@ -38,14 +35,9 @@ int flipToWin(T bits)
     return std::min(result, std::numeric_limits<T>::digits);
 }
 
-int main()
-{
+int main() {
     for (auto testValue : {
-                0b11011101111U
-            ,  0b110111001111U
-            , 0b1100111001111U
-            , 0U
-            , ~0U
-        })
+            0b11011101111U, 0b110111001111U, 0b1100111001111U, 0U, ~0U
+    })
         std::cout << bits(testValue) << ": " << flipToWin(testValue) << std::endl;
 }

@@ -6,9 +6,8 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-template <typename T>
-NodePtr<T> subtreeFromArray(const T *array, int start, int end)
-{
+template<typename T>
+NodePtr<T> subtreeFromArray(const T *array, int start, int end) {
     if (end < start)
         return nullptr;
 
@@ -19,22 +18,19 @@ NodePtr<T> subtreeFromArray(const T *array, int start, int end)
     return node;
 }
 
-template <typename T>
-Tree<T> treeFromArray(const T *array, size_t size)
-{
+template<typename T>
+Tree<T> treeFromArray(const T *array, size_t size) {
     Tree<T> tree;
     tree.setRoot(subtreeFromArray(array, 0, size - 1));
 
     return tree;
 }
 
-int main()
-{
+int main() {
     std::array<int, 63> array;
     std::iota(array.begin(), array.end(), 0); // Fill with 0 .. 62
 
-    for (auto &i : {1, 2, 3, 6, 7, 8, 14, 15, 16, 29, 30, 31})
-    {
+    for (auto &i : {1, 2, 3, 6, 7, 8, 14, 15, 16, 29, 30, 31}) {
         auto tree = treeFromArray(&array[0], i);
         TestUtils::printTree(tree);
     }

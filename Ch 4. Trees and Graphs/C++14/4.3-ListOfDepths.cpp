@@ -7,31 +7,27 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-template <typename T>
+template<typename T>
 using ListOfDepths = std::list<std::list<NodePtr<T>>>;
 
-template <typename T>
-ListOfDepths<T> getListOfDepths(const Tree<T> &tree)
-{
+template<typename T>
+ListOfDepths<T> getListOfDepths(const Tree<T> &tree) {
     ListOfDepths<T> result;
 
     result.emplace_back();
     auto list = &result.back();
     list->push_back(tree.getRoot());
 
-    do
-    {
+    do {
         result.emplace_back();
         auto &childs = result.back();
-        for (const auto &n : *list)
-        {
+        for (const auto &n : *list) {
             if (n->getLeft())
                 childs.push_back(n->getLeft());
             if (n->getRight())
                 childs.push_back(n->getRight());
         }
-        if (childs.empty())
-        {
+        if (childs.empty()) {
             result.pop_back();
             break;
         }
@@ -41,17 +37,14 @@ ListOfDepths<T> getListOfDepths(const Tree<T> &tree)
     return result;
 }
 
-template <typename T>
-void printDepths(const ListOfDepths<T> &depths)
-{
+template<typename T>
+void printDepths(const ListOfDepths<T> &depths) {
     std::cout << "Nodes:\n";
     int depth = 0;
-    for (const auto &line : depths)
-    {
+    for (const auto &line : depths) {
         std::cout << depth << ": ";
         auto sep = "";
-        for (const auto &n : line)
-        {
+        for (const auto &n : line) {
             std::cout << sep << n->getValue();
             sep = ", ";
         }
@@ -61,8 +54,7 @@ void printDepths(const ListOfDepths<T> &depths)
     std::cout << std::endl;
 }
 
-int main()
-{
+int main() {
     auto tree = TestUtils::getSampleTree<int>(15);
     TestUtils::printTree(tree);
     auto depths = getListOfDepths(tree);

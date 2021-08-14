@@ -14,28 +14,24 @@
 #include "graph.hpp"
 #include "graphtestutils.hpp"
 
-enum class States
-{
+enum class States {
     NotVisited,
     Visiting,
     Visited
 };
 
-bool buildProject(const Node<States> &node, std::list<Node<States>> &order)
-{
+bool buildProject(const Node<States> &node, std::list<Node<States>> &order) {
     if (node->state == States::Visited)
         return true; // Already pushed in build order
 
-    if (node->state == States::Visiting)
-    {
+    if (node->state == States::Visiting) {
         // Dependency cycle detected
         order.empty();
         return false;
     }
 
     node->state = States::Visiting;
-    for (auto &a : node->getAdjacent())
-    {
+    for (auto &a : node->getAdjacent()) {
         auto prj = a.lock();
         if (prj)
             if (!buildProject(prj, order))
@@ -46,8 +42,7 @@ bool buildProject(const Node<States> &node, std::list<Node<States>> &order)
     return true;
 }
 
-std::list<Node<States>> buildOrder(const Graph<States> &graph)
-{
+std::list<Node<States>> buildOrder(const Graph<States> &graph) {
     std::list<Node<States>> order;
     auto &projects = graph.getNodes();
     for (auto &p : projects)
@@ -56,24 +51,32 @@ std::list<Node<States>> buildOrder(const Graph<States> &graph)
     return order;
 }
 
-void test(const Graph<States> &graph)
-{
+void test(const Graph<States> &graph) {
     auto order = buildOrder(graph);
 
     const char *sep = "";
-    for (auto &n : order)
-    {
+    for (auto &n : order) {
         std::cout << sep << n->Name();
         sep = ", ";
     }
     std::cout << std::endl;
 }
 
-int main()
-{
+int main() {
     test(TestUtils::createGraph<States>({"a", "b", "c", "d", "e", "f"},
-        {{"a", "d"}, {"f", "b"}, {"b", "d"}, {"f", "a"}, {"d", "c"}}));
-    
+                                        {{"a", "d"},
+                                         {"f", "b"},
+                                         {"b", "d"},
+                                         {"f", "a"},
+                                         {"d", "c"}}));
+
     test(TestUtils::createGraph<States>({"a", "b", "c", "d", "e", "f", "g"},
-        {{"a", "e"}, {"b", "a"}, {"b", "e"}, {"c", "a"}, {"d", "g"}, {"f", "a"}, {"f", "b"}, {"f", "c"}}));
+                                        {{"a", "e"},
+                                         {"b", "a"},
+                                         {"b", "e"},
+                                         {"c", "a"},
+                                         {"d", "g"},
+                                         {"f", "a"},
+                                         {"f", "b"},
+                                         {"f", "c"}}));
 }

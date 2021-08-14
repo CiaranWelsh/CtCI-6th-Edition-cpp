@@ -4,27 +4,26 @@
 
 using namespace std;
 
-int getCharNumber(const char & c){
+int getCharNumber(const char &c) {
     int a = (int) 'a';
     int z = (int) 'z';
     int A = (int) 'A';
     int Z = (int) 'Z';
     int val = (int) c;
-    if(a <= val && val <= z){
+    if (a <= val && val <= z) {
         return val - 'a';
-    }
-    else if(A <= val && val <= Z){
+    } else if (A <= val && val <= Z) {
         return val - 'A';
     }
     return -1;
 }
 
 
-vector <int> buildCharFrequencyTable(string phrase){
-    vector <int> table(getCharNumber('z') - getCharNumber('a') + 1, 0);
-    for(char &c : phrase){
+vector<int> buildCharFrequencyTable(string phrase) {
+    vector<int> table(getCharNumber('z') - getCharNumber('a') + 1, 0);
+    for (char &c : phrase) {
         int x = getCharNumber(c);
-        if(x != -1){
+        if (x != -1) {
             table[x]++;
         }
     }
@@ -32,15 +31,11 @@ vector <int> buildCharFrequencyTable(string phrase){
 }
 
 
-bool checkMaxOneOdd(vector<int> &table)
-{
+bool checkMaxOneOdd(vector<int> &table) {
     bool foundOdd = false;
-    for (auto count : table)
-    {
-        if (count % 2 == 1)
-        {
-            if (foundOdd)
-            {
+    for (auto count : table) {
+        if (count % 2 == 1) {
+            if (foundOdd) {
                 return false;
             }
             foundOdd = true;
@@ -49,14 +44,12 @@ bool checkMaxOneOdd(vector<int> &table)
     return true;
 }
 
-bool isPermutationOfPalindrome(const string &phrase)
-{
+bool isPermutationOfPalindrome(const string &phrase) {
     vector<int> table = buildCharFrequencyTable(phrase);
     return checkMaxOneOdd(table);
 }
 
-int main(int argc, const char *argv[])
-{
+int main(int argc, const char *argv[]) {
     string pali = "Rats live on no evil star";
     string isPermutation = isPermutationOfPalindrome(pali) ? "yes" : "no";
     cout << isPermutation << endl;

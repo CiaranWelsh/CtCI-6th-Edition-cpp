@@ -8,8 +8,7 @@
 #include "tree.hpp"
 #include "treetestutils.hpp"
 
-int sumsFrom(const NodePtr<int> &node, int requiredSum, int pathSum, std::unordered_map<int, int> &sums)
-{
+int sumsFrom(const NodePtr<int> &node, int requiredSum, int pathSum, std::unordered_map<int, int> &sums) {
     if (!node)
         return 0;
 
@@ -33,14 +32,12 @@ int sumsFrom(const NodePtr<int> &node, int requiredSum, int pathSum, std::unorde
     return cnt;
 }
 
-int countPathsWithSum(const Tree<int> &tree, int sum)
-{
-        std::unordered_map<int, int> tmp;
-        return sumsFrom(tree.getRoot(), sum, 0, tmp);
+int countPathsWithSum(const Tree<int> &tree, int sum) {
+    std::unordered_map<int, int> tmp;
+    return sumsFrom(tree.getRoot(), sum, 0, tmp);
 }
 
-int main()
-{
+int main() {
     auto tree = TestUtils::treeFromArray({1, -2, 3, -5, 7, -11, 13, -1, 2, -3, 5, -7, 11, -1, 2, -3, 1, -2, 3, -7});
     TestUtils::printTree(tree);
 

@@ -2,36 +2,33 @@
 
 #include "treenode.hpp"
 
-template <typename T, bool WithParent = false,
-          template<typename, bool> class N = Node>
-class Tree
-{
+template<typename T, bool WithParent = false,
+        template<typename, bool> class N = Node>
+class Tree {
 public:
     using NodePtr = typename N<T, WithParent>::NodePtr;
 
-    const NodePtr &getRoot() const
-    {
+    const NodePtr &getRoot() const {
         if (isEmpty())
             throw TreeIsEmptyException();
         return root;
     }
 
-    template <typename U>
-    void setRoot(U &&node)
-    {
+    template<typename U>
+    void setRoot(U &&node) {
         root = std::forward<U>(node);
     }
 
-    bool isEmpty() const
-    {
+    bool isEmpty() const {
         return !root;
     }
 
-    class TreeIsEmptyException {};
-    
+    class TreeIsEmptyException {
+    };
+
 protected:
     NodePtr root;
 };
 
-template <typename T, bool WithParent = false>
+template<typename T, bool WithParent = false>
 using NodePtr = typename Tree<T, WithParent>::NodePtr;
