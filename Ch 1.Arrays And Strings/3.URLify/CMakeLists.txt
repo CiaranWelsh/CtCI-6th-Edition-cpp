@@ -1,0 +1,1 @@
+addExecutable(URLifyCW "URLifyCW.cpp")

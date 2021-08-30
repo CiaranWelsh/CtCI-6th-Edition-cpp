@@ -1,0 +1,1 @@
+addExecutable(MinimalTree "4.2-MinimalTree.cpp")

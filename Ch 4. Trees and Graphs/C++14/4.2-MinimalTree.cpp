@@ -27,7 +27,7 @@ Tree<T> treeFromArray(const T *array, size_t size) {
 }
 
 int main() {
-    std::array<int, 63> array;
+    std::array<int, 63> array{};
     std::iota(array.begin(), array.end(), 0); // Fill with 0 .. 62
 
     for (auto &i : {1, 2, 3, 6, 7, 8, 14, 15, 16, 29, 30, 31}) {

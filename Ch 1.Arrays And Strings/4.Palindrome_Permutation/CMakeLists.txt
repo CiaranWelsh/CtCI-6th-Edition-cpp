@@ -1,0 +1,1 @@
+addExecutable(pallindrome-permutations-cw "pallindrome-permutations-cw.cpp")
